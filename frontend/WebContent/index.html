@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Index</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-cookies.js"></script>
+<script src="RouteConfig.js"></script>
+<script src="c_user/UserController.js"></script>
+<script src="c_chat/ChatController.js"></script>
+<script src="c_chat/ChatService.js"></script>
+<script src="c_blog/BlogController.js"></script>
+<script src="c_blog/BlogCommentController.js"></script>
+<script src="c_forum/ForumController.js"></script>
+<script src="c_forum/ForumCommentController.js"></script>
+<script src="c_friend/FriendController.js"></script>
+<script src="c_job/JobController.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.1/sockjs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<style>
+#mynav { width:100%;height:auto;background-color:#02bfff;overflow:hidden; }
+a:link, a:active, a:visited { color:#000000;text-decoration:none;font-size:18px;display:inline-block; padding-top:6px; padding-bottom:6px; text-align: center; }
+a:hover { text-decoration:none;color:#000000;background-color:#ffffff;animation:blink 1s infinite alternate; }
+@keyframes blink { 0%  { background-color:#1ac6ff; } 10% { background-color:#33ccff; }	20% { background-color:#4dd2ff; } 30% { background-color:#66d9ff; } 40% { background-color:#80dfff; } 50% { background-color:#99e6ff; } 60% { background-color:#b3ecff; } 70% { background-color:#ccf2ff  } 80% { background-color:#e6f9ff; } 90% { background-color:#ffffff; }}
+
+</style>
+</head>
+<body ng-app="myApp">
+<div ng-controller="UserController">
+<div id="mynav">
+<a href="#/login" ng-show="currentUser==undefined" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Login</a>
+<a href="#/register" ng-show="currentUser==undefined" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Register</a>
+<a href="#/contactus" ng-show="currentUser==undefined" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">ContactUs</a>
+<a href="#/aboutus" ng-show="currentUser==undefined" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">AboutUs</a>
+<a href="#/profile" ng-hide="currentUser==undefined" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Profile</a>
+<a href="#/chat" ng-hide="currentUser==undefined" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Chat</a>
+</div>
+
+<div class="dropdown">
+    <button type="button" data-toggle="dropdown">Blog<span class="caret"></span></button>
+    <ul class="dropdown-menu"> 
+      <li><a href="#/addBlog" ng-show="currentUser.role=='ROLE_USER'" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Add Blog</a></li>
+      <li><a href="#/myBlog" ng-show="currentUser.role=='ROLE_USER'" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">My Blog</a></li>
+       <li><a href="#/manageBlog" ng-show="currentUser.role=='ROLE_ADMIN'" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Manage Blog</a></li>
+         <li><a href="#/showBlog" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Show Blog</a></li>      
+    </ul>
+  </div>
+  
+<div class="dropdown">
+    <button type="button" data-toggle="dropdown">Forum<span class="caret"></span></button>
+    <ul class="dropdown-menu"> 
+      <li><a href="#/addForum" ng-show="currentUser.role=='ROLE_USER'" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Add Forum</a></li>
+      <li><a href="#/myForum" ng-show="currentUser.role=='ROLE_USER'" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">My Forum</a></li>
+       <li><a href="#/manageForum" ng-show="currentUser.role=='ROLE_ADMIN'" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Manage Forum</a></li>
+         <li><a href="#/showForum" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Show Forum</a></li>      
+    </ul>
+  </div>
+  
+<div class="dropdown">
+    <button type="button" data-toggle="dropdown">Job<span class="caret"></span></button>
+    <ul class="dropdown-menu"> 
+      <li><a href="#/addJob" ng-show="currentUser.role=='ROLE_ADMIN'" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Add Job</a></li>
+         <li><a href="#/showJob" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Show Job</a></li>      
+    </ul>
+</div>
+
+<div class="dropdown" ng-hide="currentUser==undefined">
+    <button type="button" data-toggle="dropdown">Friend<span class="caret"></span></button>
+    <ul class="dropdown-menu"> 
+      <li><a href="#/showFriends" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Show Friends</a></li>
+       <li><a href="#/friendRequests" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Friend Requests</a></li>
+         <li><a href="#/suggestedFriends" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Suggested Friends </a></li>      
+    </ul>
+  </div>
+
+<div id="mynav" ng-hide="currentUser==undefined">
+<img src="http://localhost:8080/middleware/getImage/{{currentUser.username}}" width="20px" height="20px">
+<h4 style="right:10px">Welcome {{currentUser.firstname}}</h4>
+<a href="" ng-click="logout()" class="col-lg-1 col-md-2 col-sm-4 col-xs-6">Logout</a>
+</div>
+
+</div>
+ <div ng-view></div>
+</body>
+</html>
